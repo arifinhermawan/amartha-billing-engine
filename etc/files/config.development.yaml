@@ -1,0 +1,8 @@
+database:
+  driver: "postgres"
+  host: "localhost"
+  database_name: "amartha-billing-engine"
+  password:
+  port: 5433
+  username: "amartha-billing-engine"
+  default_timeout: 5

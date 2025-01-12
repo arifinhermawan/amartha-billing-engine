@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_DB: amartha-billing-engine
+      POSTGRES_USER: amartha-billing-engine
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - amartha-billing-engine
+
+volumes:
+  postgres_data:
+networks:
+  amartha-billing-engine:
+    name: amartha-billing-engine

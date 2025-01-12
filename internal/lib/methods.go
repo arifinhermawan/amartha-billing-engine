@@ -3,7 +3,7 @@ package lib
 import (
 	"time"
 
-	"github.com/arifinhermawan/project-template/internal/lib/configuration"
+	"github.com/arifinhermawan/amartha-billing-engine/internal/lib/configuration"
 )
 
 func (i *Lib) GetConfig() *configuration.AppConfig {

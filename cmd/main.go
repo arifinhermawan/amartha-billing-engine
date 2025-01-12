@@ -1,27 +1,9 @@
 package main
 
 import (
-	"context"
-	"os"
-
-	"github.com/arifinhermawan/blib/log"
-	"github.com/arifinhermawan/project-template/internal/app"
-)
-
-const (
-	filePath = "etc/logs/application.log"
+	"github.com/arifinhermawan/amartha-billing-engine/internal/app"
 )
 
 func main() {
-	// clean up log file so it doesn't
-	// get bloated
-	cleanUp()
-	log.Init(filePath)
 	app.NewApplication()
-}
-
-func cleanUp() {
-	if err := os.Truncate(filePath, 0); err != nil {
-		log.Warn(context.Background(), nil, nil, "Failed to open log file")
-	}
 }

@@ -3,32 +3,29 @@ package utils
 import (
 	"database/sql"
 	"fmt"
+	"log"
 
 	_ "github.com/lib/pq"
 
-	"github.com/arifinhermawan/blib/log"
-	"github.com/arifinhermawan/project-template/internal/lib/configuration"
-	"github.com/arifinhermawan/project-template/internal/lib/context"
+	"github.com/arifinhermawan/amartha-billing-engine/internal/lib/configuration"
 )
 
 func InitDBConn(cfg configuration.DatabaseConfig) (*sql.DB, error) {
-	ctx := context.DefaultContext()
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		cfg.Host, cfg.Port, cfg.Username, cfg.Password, cfg.DatabaseName)
 
 	db, err := sql.Open(cfg.Driver, psqlInfo)
 	if err != nil {
-		log.Error(ctx, nil, err, "[InitDBConn] sqlx.Open() got error")
+		log.Fatalf("[InitDBConn] sql.Open() got error: %v\n", err)
 		return nil, err
 	}
 
 	err = db.Ping()
 	if err != nil {
-		log.Error(ctx, nil, err, "[InitDBConn] db.Ping() got error")
+		log.Fatalf("[InitDBConn] db.Ping() got error: %v\n", err)
 		return nil, err
 	}
 
-	log.Info(ctx, nil, nil, "successfully connect to database")
 	return db, nil
 }

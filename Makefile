@@ -8,23 +8,16 @@ dep:
 	@echo "RUNNING GO MOD VENDOR..."
 	@go mod vendor
 
-postgres:
-	@echo "Starting Postgres docker container"
-	@docker start probi-postgres || (echo "Container probi-postgres not found. Run docker-compose up -d or create the container first." && exit 1)
-	@echo "Postgres is running."
-	@echo "============================"
+docker-compose-up:
+	@echo "Starting Docker containers using docker-compose"
+	@docker-compose up -d
 
-redis:
-	@echo "Starting Redis docker container"
-	@docker start probi-redis || (echo "Container probi-redis not found. Run docker-compose up -d or create the container first." && exit 1)
-	@echo "Redis is running."
-	@echo "============================"
+docker-compose-down:
+	@echo "Stopping Docker containers using docker-compose"
+	@docker-compose down
 
-run: postgres redis
-	@if [ "$$ENV" = "production" ]; then \
-		fluent-bit -c fluent-bit.conf; \
-	fi
+run: docker-compose-up
 	@go run cmd/main.go
 
-clean:
-	@docker stop probi-postgres probi-redis || true
+clean: docker-compose-down
+	@docker stop amartha-billing-engine || true

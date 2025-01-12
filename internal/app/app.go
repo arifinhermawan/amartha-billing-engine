@@ -1,11 +1,11 @@
 package app
 
 import (
-	"github.com/arifinhermawan/project-template/internal/app/server"
-	"github.com/arifinhermawan/project-template/internal/app/utils"
-	"github.com/arifinhermawan/project-template/internal/lib"
-	"github.com/arifinhermawan/project-template/internal/lib/configuration"
-	"github.com/arifinhermawan/project-template/internal/lib/time"
+	"github.com/arifinhermawan/amartha-billing-engine/internal/app/server"
+	"github.com/arifinhermawan/amartha-billing-engine/internal/app/utils"
+	"github.com/arifinhermawan/amartha-billing-engine/internal/lib"
+	"github.com/arifinhermawan/amartha-billing-engine/internal/lib/configuration"
+	"github.com/arifinhermawan/amartha-billing-engine/internal/lib/time"
 )
 
 func NewApplication() {
@@ -18,19 +18,15 @@ func NewApplication() {
 	// init db connection
 	_, _ = utils.InitDBConn(lib.GetConfig().Database)
 
-	// init redis connection
-	_, _ = utils.InitRedisConn(lib.GetConfig().Redis)
-
 	// init app stack
+	repo := server.NewRepositories()
+
 	// service
-	svc := server.NewService()
+	svc := server.NewService(repo)
 
 	// usecase
 	uc := server.NewUseCases(svc)
 
 	// handler
-	handler := server.NewHandler(uc)
-
-	// test run
-	handler.Sample.HelloWorld()
+	_ = server.NewHandler(uc)
 }

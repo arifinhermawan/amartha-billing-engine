@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/arifinhermawan/project-template/internal/app/server"
+	"github.com/arifinhermawan/amartha-billing-engine/internal/app/server"
 	"github.com/gorilla/mux"
 )
 
