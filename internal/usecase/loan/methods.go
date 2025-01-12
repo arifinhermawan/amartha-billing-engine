@@ -29,3 +29,13 @@ func (uc *UseCase) CreateLoan(ctx context.Context, req CreateLoanReq) error {
 
 	return nil
 }
+
+func (uc *UseCase) GetOutstandingBalance(ctx context.Context, loanID int64) (float64, error) {
+	outstandingBalance, err := uc.loan.GetOutstandingBalance(ctx, loanID)
+	if err != nil {
+		log.Printf("[GetOutstandingBalance] uc.loan.GetOutstandingBalance() got error: %v\nMetadata: %v\n", err, map[string]interface{}{"loan_id": loanID})
+		return 0, err
+	}
+
+	return outstandingBalance, nil
+}

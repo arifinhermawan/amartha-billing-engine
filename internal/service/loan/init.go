@@ -18,6 +18,7 @@ type dbProvider interface {
 	BeginTX(ctx context.Context, options *sql.TxOptions) (*sql.Tx, error)
 	CreateLoanInDB(ctx context.Context, tx *sql.Tx, req pgsql.CreateLoanReq) (int64, error)
 	CreatePaymentPlanInDB(ctx context.Context, tx *sql.Tx, plans []pgsql.PaymentPlan) error
+	GetOutstandingBalanceFromDB(ctx context.Context, loanID int64) (float64, error)
 }
 
 type Service struct {

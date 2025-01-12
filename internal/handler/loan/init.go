@@ -8,6 +8,7 @@ import (
 
 type loanUseCaseProvider interface {
 	CreateLoan(ctx context.Context, req loan.CreateLoanReq) error
+	GetOutstandingBalance(ctx context.Context, loanID int64) (float64, error)
 }
 
 type Handler struct {

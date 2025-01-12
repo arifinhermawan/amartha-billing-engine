@@ -16,7 +16,7 @@ func (svc *Service) CreateLoan(ctx context.Context, req CreateLoanReq) error {
 		"interest_rate":     req.InterestRate,
 	}
 
-	outstandingBalance := req.Amount + (req.Amount * req.InterestRate)
+	outstandingBalance := req.Amount + (req.Amount * (req.InterestRate / 100))
 	metadata["outstanding_balance"] = outstandingBalance
 
 	tx, err := svc.db.BeginTX(ctx, nil)
@@ -84,4 +84,14 @@ func (svc *Service) CreateLoan(ctx context.Context, req CreateLoanReq) error {
 	}
 
 	return nil
+}
+
+func (svc *Service) GetOutstandingBalance(ctx context.Context, loanID int64) (float64, error) {
+	outstandingBalance, err := svc.db.GetOutstandingBalanceFromDB(ctx, loanID)
+	if err != nil {
+		log.Printf("[GetOutstandingBalance] svc.db.GetOutstandingBalanceFromDB() got error: %v\nMetadata: %v\n", err, map[string]interface{}{"loan_id": loanID})
+		return 0, err
+	}
+
+	return outstandingBalance, nil
 }

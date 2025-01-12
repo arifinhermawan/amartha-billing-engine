@@ -15,4 +15,14 @@ const (
 		)
 		RETURNING id
 	`
+
+	queryGetOutstandingBalance = `
+		SELECT
+			id,
+			outstanding_balance
+		FROM
+			loan
+		WHERE
+			id = $1
+	`
 )
