@@ -13,7 +13,6 @@ func HandleRequest(handlers *server.Handlers) {
 	router.Use(cors)
 
 	handleGetRequest(handlers, router)
-	handlePatchRequest(handlers, router)
 	handlePostRequest(handlers, router)
 
 	log.Println("HTTP running at :8080")
@@ -40,12 +39,12 @@ func handleGetRequest(handlers *server.Handlers, router *mux.Router) {
 	router.HandleFunc("/loans/{loan_id}/outstanding-balance", handlers.Loan.GetOutstandingBalance).Methods("GET")
 }
 
-func handlePatchRequest(handlers *server.Handlers, router *mux.Router) {
-}
-
 func handlePostRequest(handlers *server.Handlers, router *mux.Router) {
 	// Loan endpoint
 	router.HandleFunc("/loans", handlers.Loan.CreateLoan).Methods("POST")
+
+	// Payment endpoint
+	router.HandleFunc("/payments", handlers.Payment.PayWeeklyInstallment).Methods("POST")
 
 	// User endpoint
 	router.HandleFunc("/users", handlers.User.CreateUser).Methods("POST")

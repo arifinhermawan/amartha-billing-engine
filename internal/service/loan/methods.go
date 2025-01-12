@@ -86,6 +86,16 @@ func (svc *Service) CreateLoan(ctx context.Context, req CreateLoanReq) error {
 	return nil
 }
 
+func (svc *Service) GetLoanByID(ctx context.Context, loanID int64) (Loan, error) {
+	loan, err := svc.db.GetLoanByIDFromDB(ctx, loanID)
+	if err != nil {
+		log.Printf("[GetLoanByID] svc.db.GetLoanByIDFromDB() got error: %v\nMetadata: %v\n", err, map[string]interface{}{"loan_id": loanID})
+		return Loan{}, err
+	}
+
+	return Loan(loan), nil
+}
+
 func (svc *Service) GetOutstandingBalance(ctx context.Context, loanID int64) (float64, error) {
 	outstandingBalance, err := svc.db.GetOutstandingBalanceFromDB(ctx, loanID)
 	if err != nil {
@@ -94,4 +104,19 @@ func (svc *Service) GetOutstandingBalance(ctx context.Context, loanID int64) (fl
 	}
 
 	return outstandingBalance, nil
+}
+
+func (svc *Service) UpdateLoan(ctx context.Context, loanID int64, outstandingBalance float64) error {
+	err := svc.db.UpdateLoanInDB(ctx, pgsql.UpdateLoanReq{
+		LoanID:             loanID,
+		OutstandingBalance: outstandingBalance,
+		IsActive:           outstandingBalance != 0,
+		UpdatedAt:          svc.lib.GetTimeGMT7(),
+	})
+	if err != nil {
+		log.Printf("[UpdateLoan] svc.db.UpdateLoanInDB() got error: %v\nMetadata: %v\n", err, map[string]interface{}{"loan_id": loanID})
+		return err
+	}
+
+	return nil
 }

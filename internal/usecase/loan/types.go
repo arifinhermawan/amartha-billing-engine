@@ -1,5 +1,6 @@
 package loan
 
+// request
 type CreateLoanReq struct {
 	UserID          int64
 	Amount          float64

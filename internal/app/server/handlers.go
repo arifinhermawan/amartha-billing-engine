@@ -2,17 +2,20 @@ package server
 
 import (
 	"github.com/arifinhermawan/amartha-billing-engine/internal/handler/loan"
+	"github.com/arifinhermawan/amartha-billing-engine/internal/handler/payment"
 	"github.com/arifinhermawan/amartha-billing-engine/internal/handler/user"
 )
 
 type Handlers struct {
-	User *user.Handler
-	Loan *loan.Handler
+	Loan    *loan.Handler
+	Payment *payment.Handler
+	User    *user.Handler
 }
 
 func NewHandler(uc *UseCases) *Handlers {
 	return &Handlers{
-		User: user.NewHandler(uc.User),
-		Loan: loan.NewHandler(uc.Loan),
+		Loan:    loan.NewHandler(uc.Loan),
+		Payment: payment.NewHandler(uc.Payment),
+		User:    user.NewHandler(uc.User),
 	}
 }

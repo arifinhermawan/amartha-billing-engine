@@ -15,8 +15,8 @@ type psqlProvider interface {
 	BeginTx(ctx context.Context, opts *sql.TxOptions) (*sql.Tx, error)
 	ExecContext(ctx context.Context, query string, args ...any) (sql.Result, error)
 	GetContext(ctx context.Context, dest interface{}, query string, args ...interface{}) error
-	NamedExecContext(ctx context.Context, query string, arg interface{}) (sql.Result, error)
 	Rebind(query string) string
+	SelectContext(ctx context.Context, dest interface{}, query string, args ...interface{}) error
 }
 
 type Repository struct {

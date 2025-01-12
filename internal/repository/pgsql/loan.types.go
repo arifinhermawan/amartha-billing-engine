@@ -14,8 +14,16 @@ type CreateLoanReq struct {
 	UpdatedAt          time.Time `db:"updated_at"`
 }
 
+type UpdateLoanReq struct {
+	LoanID             int64     `db:"id"`
+	OutstandingBalance float64   `db:"outstanding_balance"`
+	IsActive           bool      `db:"is_active"`
+	UpdatedAt          time.Time `db:"updated_at"`
+}
+
 // response
 type Loan struct {
 	ID                 int64   `db:"id"`
+	IsActive           bool    `db:"is_active"`
 	OutstandingBalance float64 `db:"outstanding_balance"`
 }

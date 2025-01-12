@@ -25,4 +25,24 @@ const (
 		WHERE
 			id = $1
 	`
+
+	queryGetLoanByID = `
+		SELECT
+			id,
+			outstanding_balance,
+			is_active
+		FROM
+			loan
+		WHERE
+			id = $1
+	`
+
+	queryUpdateLoan = `
+		UPDATE loan
+		SET 
+			outstanding_balance = :outstanding_balance,
+			is_active = :is_active,
+			updated_at = :updated_at
+		WHERE id = :id
+	`
 )
