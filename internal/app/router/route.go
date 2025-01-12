@@ -10,13 +10,12 @@ import (
 
 func HandleRequest(handlers *server.Handlers) {
 	router := mux.NewRouter().StrictSlash(true)
-	router.Use(cors)
 
 	handleGetRequest(handlers, router)
 	handlePostRequest(handlers, router)
 
 	log.Println("HTTP running at :8080")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(":8080", cors(router)))
 }
 
 func cors(next http.Handler) http.Handler {
