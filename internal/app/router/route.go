@@ -35,6 +35,9 @@ func cors(next http.Handler) http.Handler {
 }
 
 func handleGetRequest(handlers *server.Handlers, router *mux.Router) {
+	// User endpoint
+	router.HandleFunc("/users/delinquent", handlers.User.GetDelinquentsUsers).Methods("GET")
+
 	// Loan endpoint
 	router.HandleFunc("/loans/{loan_id}/outstanding-balance", handlers.Loan.GetOutstandingBalance).Methods("GET")
 }

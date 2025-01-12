@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 	"log"
+	"time"
 
 	"github.com/arifinhermawan/amartha-billing-engine/internal/repository/pgsql"
 )
@@ -21,6 +22,24 @@ func (svc *Service) CreateUser(ctx context.Context, name string, hashedPassword 
 	}
 
 	return nil
+}
+
+func (svc *Service) GetDelinquentUsers(ctx context.Context, date time.Time) ([]User, error) {
+	user, err := svc.db.GetDelinquentsUsersFromDB(ctx, date)
+	if err != nil {
+		log.Printf("[GetDelinquentUsers] svc.db.GetDelinquentsUsersFromDB() got error: %v\n", err)
+		return nil, err
+	}
+
+	result := make([]User, len(user))
+	for idx, val := range user {
+		result[idx] = User{
+			ID:   val.ID,
+			Name: val.Name,
+		}
+	}
+
+	return result, nil
 }
 
 func (svc *Service) GetUserByID(ctx context.Context, userID int64) (User, error) {

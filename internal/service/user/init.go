@@ -15,6 +15,7 @@ type libProvider interface {
 
 type dbProvider interface {
 	CreateUserInDB(ctx context.Context, req pgsql.CreateUserReq) error
+	GetDelinquentsUsersFromDB(ctx context.Context, date time.Time) ([]pgsql.User, error)
 	GetUserByIDFromDB(ctx context.Context, userID int64) (pgsql.User, error)
 }
 

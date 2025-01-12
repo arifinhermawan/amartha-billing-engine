@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 	"log"
+	"time"
 )
 
 func (uc *UseCase) CreateUser(ctx context.Context, name string, password string) error {
@@ -13,4 +14,27 @@ func (uc *UseCase) CreateUser(ctx context.Context, name string, password string)
 	}
 
 	return nil
+}
+
+func (uc *UseCase) GetDelinquentsUsers(ctx context.Context, date time.Time) ([]User, error) {
+	currentTime := uc.lib.GetTimeGMT7()
+	if !date.IsZero() {
+		currentTime = date
+	}
+
+	user, err := uc.user.GetDelinquentUsers(ctx, currentTime)
+	if err != nil {
+		log.Printf("[GetDelinquentsUsers] uc.user.GetDelinquentUsers() got error: %v\n", err)
+		return nil, err
+	}
+
+	result := make([]User, len(user))
+	for idx, val := range user {
+		result[idx] = User{
+			ID:   val.ID,
+			Name: val.Name,
+		}
+	}
+
+	return result, nil
 }

@@ -32,7 +32,7 @@ func NewApplication() {
 	svc := server.NewService(lib, repo)
 
 	// usecase
-	uc := server.NewUseCases(svc)
+	uc := server.NewUseCases(lib, svc)
 
 	// handler
 	handlers := server.NewHandler(uc)

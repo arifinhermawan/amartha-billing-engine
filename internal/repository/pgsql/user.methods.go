@@ -18,7 +18,7 @@ func (r *Repository) CreateUserInDB(ctx context.Context, req CreateUserReq) erro
 		"name": req.Name,
 	}
 
-	namedQuery, args, err := sqlx.Named(queryCreateUserInDB, req)
+	namedQuery, args, err := sqlx.Named(queryCreateUser, req)
 	if err != nil {
 		log.Printf("[CreateUserInDB] sqlxNamed() got error: %v\nMetadata: %v\n", err, metadata)
 		return err
@@ -33,12 +33,26 @@ func (r *Repository) CreateUserInDB(ctx context.Context, req CreateUserReq) erro
 	return nil
 }
 
+func (r *Repository) GetDelinquentsUsersFromDB(ctx context.Context, date time.Time) ([]User, error) {
+	ctxTimeout, cancel := context.WithTimeout(ctx, time.Duration(r.lib.GetConfig().Database.DefaultTimeout)*time.Second)
+	defer cancel()
+
+	var delinquentUser []User
+	err := r.db.SelectContext(ctxTimeout, &delinquentUser, queryGetDelinquentsUsers, date)
+	if err != nil {
+		log.Printf("[GetDelinquentsUsersFromDB] r.db.SelectContext() got error: %v\n", err)
+		return nil, err
+	}
+
+	return delinquentUser, nil
+}
+
 func (r *Repository) GetUserByIDFromDB(ctx context.Context, userID int64) (User, error) {
 	ctxTimeout, cancel := context.WithTimeout(ctx, time.Duration(r.lib.GetConfig().Database.DefaultTimeout)*time.Second)
 	defer cancel()
 
 	var user User
-	err := r.db.GetContext(ctxTimeout, &user, queryGetUserByIDFromDB, userID)
+	err := r.db.GetContext(ctxTimeout, &user, queryGetUserByID, userID)
 	if err != nil && err != sql.ErrNoRows {
 		log.Printf("[GetUserByIDFromDB] r.db.GetContext() got error: %v\nMetadata: %v\n", err, map[string]interface{}{"user_id": userID})
 		return User{}, err

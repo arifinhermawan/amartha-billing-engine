@@ -12,3 +12,9 @@ func validate(r interface{}) error {
 	validate := validator.New()
 	return validate.Struct(r)
 }
+
+// Response
+type delinquentUser struct {
+	ID   int64  `json:"id"`
+	Name string `json:"name"`
+}
