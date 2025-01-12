@@ -30,7 +30,7 @@ CREATE TABLE public.payment (
 	week_number int4 NOT NULL,
 	amount numeric(15, 2) NOT NULL,
 	due_date date NOT NULL,
-	is_paid bool DEFAULT false NOT NULL,
+	is_paid bool DEFAULT false,
 	paid_date date NULL,
 	created_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	updated_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,

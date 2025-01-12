@@ -42,6 +42,9 @@ func handlePatchRequest(handlers *server.Handlers, router *mux.Router) {
 }
 
 func handlePostRequest(handlers *server.Handlers, router *mux.Router) {
-	// User endpoints
+	// Loan endpoint
+	router.HandleFunc("/loans", handlers.Loan.CreateLoan).Methods("POST")
+
+	// User endpoint
 	router.HandleFunc("/users", handlers.User.CreateUser).Methods("POST")
 }

@@ -1,7 +1,8 @@
-package user
+package loan
 
 import (
 	"context"
+	"database/sql"
 	"time"
 
 	"github.com/arifinhermawan/amartha-billing-engine/internal/lib/configuration"
@@ -14,8 +15,9 @@ type libProvider interface {
 }
 
 type dbProvider interface {
-	CreateUserInDB(ctx context.Context, req pgsql.CreateUserReq) error
-	GetUserByIDFromDB(ctx context.Context, userID int64) (pgsql.User, error)
+	BeginTX(ctx context.Context, options *sql.TxOptions) (*sql.Tx, error)
+	CreateLoanInDB(ctx context.Context, tx *sql.Tx, req pgsql.CreateLoanReq) (int64, error)
+	CreatePaymentPlanInDB(ctx context.Context, tx *sql.Tx, plans []pgsql.PaymentPlan) error
 }
 
 type Service struct {

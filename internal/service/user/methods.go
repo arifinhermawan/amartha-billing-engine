@@ -22,3 +22,13 @@ func (svc *Service) CreateUser(ctx context.Context, name string, hashedPassword 
 
 	return nil
 }
+
+func (svc *Service) GetUserByID(ctx context.Context, userID int64) (User, error) {
+	res, err := svc.db.GetUserByIDFromDB(ctx, userID)
+	if err != nil {
+		log.Printf("[GetUserByID] svc.db.GetUserByIDFromDB() got error: %v\nMetadata: %v\n", err, map[string]interface{}{"user_id": userID})
+		return User{}, err
+	}
+
+	return User(res), nil
+}
