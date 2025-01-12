@@ -1,5 +1,5 @@
 CREATE TABLE public."user" (
-	id uuid NOT NULL,
+	id BIGSERIAL NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"password" varchar(255) NOT NULL,
 	created_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -8,8 +8,8 @@ CREATE TABLE public."user" (
 );
 
 CREATE TABLE public.loan (
-	id uuid NOT NULL,
-	user_id uuid NOT NULL,
+	id BIGSERIAL NOT NULL,
+	user_id BIGSERIAL NOT NULL,
 	amount numeric(15, 2) NOT NULL,
 	interest_rate numeric(5, 2) NOT NULL,
 	is_active bool DEFAULT true NOT NULL,
@@ -25,8 +25,8 @@ CREATE TABLE public.loan (
 CREATE INDEX loan_user_id_idx ON public.loan USING btree (user_id, is_active);
 
 CREATE TABLE public.payment (
-	id uuid NOT NULL,
-	loan_id uuid NOT NULL,
+	id BIGSERIAL NOT NULL,
+	loan_id BIGSERIAL NOT NULL,
 	week_number int4 NOT NULL,
 	amount numeric(15, 2) NOT NULL,
 	due_date date NOT NULL,

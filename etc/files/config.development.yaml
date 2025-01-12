@@ -6,3 +6,6 @@ database:
   port: 5433
   username: "amartha-billing-engine"
   default_timeout: 5
+
+hash_key:
+  password: "4Myg$C#5BDuiBQxN5*&3N!7jyc&5oWFAM^kKdUu8%9&5tfLx5VaW@A5Fum*7uS2j#*a6#^Dsi@nZxCpt85M*gYeJ2f2DfbknKVX!ZwEKUm4CVhrT7LxGv7Py*7UErKfr"

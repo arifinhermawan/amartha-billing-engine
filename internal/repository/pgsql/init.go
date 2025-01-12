@@ -1,14 +1,29 @@
 package pgsql
 
-type pgsqlProvider interface {
+import (
+	"context"
+	"database/sql"
+
+	"github.com/arifinhermawan/amartha-billing-engine/internal/lib/configuration"
+)
+
+type libProvider interface {
+	GetConfig() *configuration.AppConfig
 }
 
-type DBRepo struct {
-	db pgsqlProvider
+type psqlProvider interface {
+	ExecContext(ctx context.Context, query string, args ...any) (sql.Result, error)
+	Rebind(query string) string
 }
 
-func NewDBRepository(db pgsqlProvider) *DBRepo {
-	return &DBRepo{
-		db: db,
+type Repository struct {
+	lib libProvider
+	db  psqlProvider
+}
+
+func NewRepository(lib libProvider, db psqlProvider) *Repository {
+	return &Repository{
+		lib: lib,
+		db:  db,
 	}
 }

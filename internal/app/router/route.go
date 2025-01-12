@@ -1,4 +1,4 @@
-package utils
+package router
 
 import (
 	"log"
@@ -16,6 +16,7 @@ func HandleRequest(handlers *server.Handlers) {
 	handlePatchRequest(handlers, router)
 	handlePostRequest(handlers, router)
 
+	log.Println("HTTP running at :8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
@@ -41,4 +42,6 @@ func handlePatchRequest(handlers *server.Handlers, router *mux.Router) {
 }
 
 func handlePostRequest(handlers *server.Handlers, router *mux.Router) {
+	// User endpoints
+	router.HandleFunc("/users", handlers.User.CreateUser).Methods("POST")
 }
