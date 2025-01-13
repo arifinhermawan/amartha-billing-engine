@@ -60,7 +60,7 @@ As this is a mock project, some features are not included due to time constraint
 
 ## API Documentation
 
-## Postman Collection: [Amartha](../../amartha.json)
+## Postman Collection: [[Amartha](../../amartha.json)](https://drive.google.com/file/d/1FebBsbBOKhso0ZmfMTKh8W8YldHHFUXb/view?usp=drive_link)
 
 ### POST: Create User
 
